@@ -1,0 +1,11 @@
+<ul id="todo-list" class="unstyled">
+  <% @posts.each do |item| %>
+  <li id="<%= item[:id] %>">
+  <span class="item">
+  <%= item[:done] ? "<del>#{item[:title]}</del>" : item[:title] %>
+  </span>
+  <a href="/show/<%= item[:id] %>"  class="btn btn-primary">Show</a>
+  </li>
+  <% end %>
+</ul>
+<a href="/new" class="btn btn-primary">Add todo item</a>

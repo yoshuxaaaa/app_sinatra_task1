@@ -1,0 +1,13 @@
+<ul>  
+<% post = @posts %>  
+    <li><%= post[:title] %></li>  
+    <li><%= post[:content] %></li>  
+</ul>  
+<form action="/delete/<%= post[:id] %>" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete Post?">
+</form>
+<form action="/edit/<%= post[:id] %>" method="get">
+    <input type="hidden" name="_method" value="get">
+    <input type="submit" value="Edit Post?">
+</form>

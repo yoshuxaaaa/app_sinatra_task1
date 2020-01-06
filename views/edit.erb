@@ -1,0 +1,9 @@
+<h2>Edit User</h2>  
+
+<form method="post" action="/edit/<%= @posts[:id] %>">   
+    <input type="hidden" name="_method" value="PATCH">  
+    <input type="text" name="title" value="<%= @posts[:title] %>">  
+    <input type="text" name="content" value="<%= @posts[:content] %>">  
+    <button type="submit">メモの更新</button>  
+</form>  
+<a href="/">トップへ戻る</a>  
