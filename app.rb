@@ -2,40 +2,38 @@
 
 require 'sinatra'
 require 'sinatra/reloader'
-# require 'active_record'
-# require 'sinatra/activerecord'
 require_relative './models/post.rb'
 
-get '/' do
+get '/memos' do
   @posts = Post.new.all
   erb :index
 end
 
-get '/new' do
+get '/memos/new' do
   erb :new
 end
 
-post '/create' do
+post '/memos' do
   Post.new.create(params[:title], params[:content])
-  redirect '/'
+  redirect '/memos'
 end
 
-get '/show/:id' do
+get '/memos/:id' do
   @posts = Post.new.find(params[:id])
   erb :show
 end
 
-get '/edit/:id' do
+get '/memos/:id/edit' do
   @posts = Post.new.find(params[:id])
   erb :edit
 end
 
-patch '/edit/:id' do
+patch '/memos/:id' do
   Post.new.patch(params[:id], params[:title], params[:content])
-  redirect '/show/' + params[:id]
+  redirect '/memos/' + params[:id]
 end
 
-delete '/delete/:id' do
+delete '/memos/:id' do
   Post.new.delete(params[:id])
-  redirect '/'
+  redirect '/memos'
 end
