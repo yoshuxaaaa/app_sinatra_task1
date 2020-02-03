@@ -1,57 +1,41 @@
 # frozen_string_literal: true
 
-require 'csv'
+require 'pg'
+require 'dotenv'
 
 class Post
   def initialize
-    @table = CSV.table('foo.csv')
+    Dotenv.load
+    @connection = PG.connect(host: ENV['PG_HOST'], user: ENV['PG_USER'], password: ENV['PG_PASSWORD'], dbname: ENV['PG_DB'], port: ENV['PG_PORT'])
   end
 
   def all
-    @table
+    result = @connection.exec('SELECT * FROM books')
+    array = Array.new
+    result.each do |tuple|
+      array << Hash[:id, tuple['id'], :title, tuple['title'], :content, tuple['content']]
+    end
+    array
   end
 
   def find(id)
-    @table.select{|row| row if row.field?(id.to_i) }.at(0).to_h
+    result = @connection.exec("SELECT * FROM books WHERE id = '#{id}';")
+    hash = Hash.new
+    result.each do |tuple|
+      hash = {:id => tuple['id'], :title => tuple['title'], :content => tuple['content']}
+    end
+    hash
   end
 
   def create(title, content)
-    check_id
-    @table[@next_id] = [@next_id, title, content]
-    save_table
+    @connection.exec("INSERT INTO books (id, title, content) VALUES (nextval('id_seq'), '#{title}', '#{content}');")
   end
 
   def patch(id, title, content)
-    
-    @table[id.to_i] = [id, title, content]
-    save_table
+    @connection.exec("UPDATE books SET id = '#{id}', title = '#{title}', content = '#{content}' WHERE id = '#{id}';")
   end
 
   def delete(id)
-    
-    @table.delete(id.to_i)
-    save_table
-  end
-
-  private
-
-  def check_id
-    if @table[:id].last.nil?
-      @next_id = 0
-    else
-      @next_id = @table[:id].last + 1
-    end
-  end
-
-  def save_table
-    header = ['id', 'title', 'content']
-    CSV.open('foo.csv', 'w', headers: true) do |csv|
-      csv << header if @table.headers.compact.empty?
-      @table.to_a.each do |record|
-        if !record.compact.empty?
-          csv << record
-        end
-      end
-    end
+    @connection.exec("DELETE FROM books WHERE id = '#{id}';")
   end
 end
