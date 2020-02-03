@@ -1,3 +1,5 @@
-require 'sinatra/activerecord'
-require 'sinatra/activerecord/rake'
-require_relative './models/post.rb'
+require 'pg'
+require 'dotenv'
+
+Dotenv.load
+Dir.glob('lib/tasks/*.rake').each { |r| load r}
