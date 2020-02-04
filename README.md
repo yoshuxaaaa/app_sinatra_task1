@@ -1,5 +1,5 @@
 #  はじめに
-これはsinatora + PostgreSQLを使った簡単なアプリケーションです。
+これはsinatra + PostgreSQLを使った簡単なアプリケーションです。
 
 ## 事前準備
 ローカル環境にPostgreSQLのパッケージがインストールされて、
