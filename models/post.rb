@@ -11,7 +11,7 @@ class Post
 
   def all
     result = @connection.exec('SELECT * FROM books')
-    array = Array.new
+    array = []
     result.each do |tuple|
       array << Hash[:id, tuple['id'], :title, tuple['title'], :content, tuple['content']]
     end
@@ -20,9 +20,9 @@ class Post
 
   def find(id)
     result = @connection.exec("SELECT * FROM books WHERE id = '#{id}';")
-    hash = Hash.new
+    hash = {}
     result.each do |tuple|
-      hash = {:id => tuple['id'], :title => tuple['title'], :content => tuple['content']}
+      hash = { id: tuple['id'], title: tuple['title'], content: tuple['content'] }
     end
     hash
   end
