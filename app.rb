@@ -5,7 +5,7 @@ require 'sinatra/reloader'
 require_relative './models/post.rb'
 
 get '/memos' do
-  @posts = Post.all
+  @posts = Post.new.all
   erb :index
 end
 
