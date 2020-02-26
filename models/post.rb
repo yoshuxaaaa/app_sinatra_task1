@@ -6,8 +6,7 @@ require 'dotenv'
 class Post
   def connection
     Dotenv.load
-    return @connection unless @connection.nil?
-    @connection = PG.connect(host: ENV['PG_HOST'], user: ENV['PG_USER'], password: ENV['PG_PASSWORD'], dbname: ENV['PG_DB'], port: ENV['PG_PORT'])
+    @connection ||= PG.connect(host: ENV['PG_HOST'], user: ENV['PG_USER'], password: ENV['PG_PASSWORD'], dbname: ENV['PG_DB'], port: ENV['PG_PORT'])
   end
 
   def all
