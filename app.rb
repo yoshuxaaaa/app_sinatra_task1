@@ -2,7 +2,7 @@
 
 require 'sinatra'
 require 'sinatra/reloader'
-require_relative './models/post.rb'
+require_relative 'models/post.rb'
 
 get '/memos' do
   @posts = Post.all
